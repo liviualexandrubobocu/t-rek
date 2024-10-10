@@ -1,0 +1,94 @@
+
+@import '../../shared/styles/variables';
+@import '../../shared/styles/mixins';
+
+.t-grid {
+  width: 100%;
+
+  &.light {
+    @include grid-theme($light-primary-color, $light-secondary-color, $light-text-color, $light-border-color);
+  }
+
+  &.dark {
+    @include grid-theme($dark-primary-color, $dark-secondary-color, $dark-text-color, $dark-border-color);
+  }
+
+  &.small {
+    table {
+      font-size: 0.8em;
+    }
+  }
+
+  &.medium {
+    table {
+      font-size: 1em;
+    }
+  }
+
+  &.large {
+    table {
+      font-size: 1.2em;
+    }
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th,
+    td {
+      padding: 0.75em;
+      border: 1px solid;
+      text-align: left;
+    }
+
+    th {
+      cursor: pointer;
+      user-select: none;
+      position: relative;
+
+      &.sortable:hover {
+        background-color: lighten($light-primary-color, 5%);
+      }
+
+      &.sorted::after {
+        content: '';
+        position: absolute;
+        right: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+        border: 6px solid transparent;
+        border-top-color: currentColor;
+        display: inline-block;
+      }
+    }
+  }
+
+  .pagination-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1em;
+
+    .page-size-selector {
+      label {
+        margin-right: 0.5em;
+        color: inherit;
+      }
+    }
+
+    .pagination-buttons {
+      display: flex;
+      align-items: center;
+
+      t-button {
+        margin: 0 0.25em;
+      }
+
+      span {
+        margin: 0 0.5em;
+        color: inherit;
+      }
+    }
+  }
+}

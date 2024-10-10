@@ -1,0 +1,65 @@
+<div class="t-grid" [ngClass]="[theme, size]">
+  <table>
+    <thead>
+      <tr>
+        <th
+          *ngFor="let column of columns"
+          (click)="onHeaderClick(column)"
+          [class.sortable]="sortable && column.sortable"
+          [ngClass]="{
+            'sorted': sortable && column.sortable && sortColumn === column.property
+          }"
+        >
+          {{ column.name }}
+          <span
+            *ngIf="
+              sortable && column.sortable && sortColumn === column.property
+            "
+          >
+            <span *ngIf="sortDirection === 'asc'">&#9650;</span>
+            <span *ngIf="sortDirection === 'desc'">&#9660;</span>
+          </span>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of displayedData">
+        <td *ngFor="let column of columns">
+          {{ row[column.property] }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="pagination-controls" *ngIf="pageSize && pageSize > 0">
+    <div class="page-size-selector">
+      <label for="pageSize">Page Size:</label>
+      <t-select
+        [options]="pageSizeOptions"
+        [selectedValue]="pageSize"
+        [theme]="theme"
+        [size]="size"
+        (selectionChange)="onPageSizeChange($event)"
+      ></t-select>
+    </div>
+    <div class="pagination-buttons">
+      <t-button
+        [theme]="theme"
+        [size]="size"
+        (click)="goToPage(currentPage - 1)"
+        [disabled]="currentPage === 1"
+      >
+        Previous
+      </t-button>
+      <span>Page {{ currentPage }} of {{ totalPages }}</span>
+      <t-button
+        [theme]="theme"
+        [size]="size"
+        (click)="goToPage(currentPage + 1)"
+        [disabled]="currentPage === totalPages"
+      >
+        Next
+      </t-button>
+    </div>
+  </div>
+</div>

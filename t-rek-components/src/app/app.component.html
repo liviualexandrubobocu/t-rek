@@ -1,0 +1,26 @@
+<div [ngClass]="theme">
+  <button (click)="toggleTheme()">
+    Switch to {{ theme === 'light' ? 'Dark' : 'Light' }} Theme
+  </button>
+
+  <t-grid
+    [data]="myData"
+    [sortable]="true"
+    [pageSize]="2"
+    [theme]="theme"
+    [size]="'medium'"
+    (paginationChange)="performFetch($event)"
+  >
+    <t-column name="First Name" property="firstName" [sortable]="true"></t-column>
+    <t-column name="Last Name" property="lastName" [sortable]="true"></t-column>
+    <t-column name="Age" property="age" [sortable]="true"></t-column>
+</t-grid>
+
+<t-progress
+  [radius]="75"
+  [progress]="progressValue"
+  [color]="theme === 'light' ? '#00BCD4' : '#FFD700'"
+  [theme]="theme"
+  [size]="size"
+  (complete)="onProgressComplete()"
+></t-progress>

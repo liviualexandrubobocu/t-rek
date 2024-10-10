@@ -1,0 +1,36 @@
+<svg
+    [attr.height]="radius * 2"
+    [attr.width]="radius * 2"
+    role="progressbar"
+    [attr.aria-valuenow]="progress"
+    aria-valuemin="0"
+    aria-valuemax="100"
+    [ngClass]="[theme, size]"
+>
+  <circle
+    class="progress-bg"
+    [attr.stroke-width]="10"
+    [attr.r]="radius - 10"
+    [attr.cx]="radius"
+    [attr.cy]="radius"
+  ></circle>
+  <circle
+    class="progress-bar"
+    [attr.stroke-width]="10"
+    [attr.stroke]="color"
+    [attr.r]="radius - 10"
+    [attr.cx]="radius"
+    [attr.cy]="radius"
+    [attr.stroke-dasharray]="strokeDasharray"
+    [attr.stroke-dashoffset]="strokeDashoffset"
+  ></circle>
+  <text
+    class="progress-text"
+    [attr.x]="radius"
+    [attr.y]="radius"
+    dy="0.3em"
+    text-anchor="middle"
+  >
+    {{ progress }}%
+  </text>
+</svg>
