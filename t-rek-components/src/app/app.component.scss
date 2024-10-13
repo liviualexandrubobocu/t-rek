@@ -1,11 +1,11 @@
-@import './shared/styles/variables';
+@import "./shared/styles/variables";
 
 .light {
-    background-color: $light-primary-color;
-    color: $light-text-color;
-  }
-  
+  background-color: $light-primary-color;
+  color: $light-text-color;
+}
+
 .dark {
-    background-color: $dark-primary-color;
-    color: $dark-text-color;
+  background-color: $dark-primary-color;
+  color: $dark-text-color;
 }

@@ -1,0 +1,59 @@
+@import "../../shared/styles/variables";
+
+.theme-toggle {
+  position: relative;
+  width: 60px;
+  height: 30px;
+  padding: 5px;
+  border-radius: 35px;
+  border: 3px solid $dark-secondary-color;
+  background-color: $dark-primary-color;
+  overflow: hidden;
+  transition: all 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+  cursor: pointer;
+
+  .circle {
+    border-radius: 50%;
+    display: inline-block;
+    position: absolute;
+    transition: all 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+
+    &.small {
+      width: 15px;
+      height: 15px;
+      background: $dark-primary-color;
+      left: 15px;
+      top: 5px;
+      z-index: 1000;
+    }
+
+    &.large {
+      width: 20px;
+      height: 20px;
+      background: $light-background;
+      border: 3px solid $light-background;
+      top: 50%;
+      transform: translateY(-50%);
+      left: 7px;
+    }
+  }
+
+  &.dark {
+    background-color: $light-background;
+    border-color: $dark-accent-color-1; // Adjust as per your theme
+
+    .circle {
+      &.large {
+        left: 40px;
+        background: $light-tertiary-color;
+        border-color: $light-accent-color-1;
+      }
+
+      &.small {
+        left: 40px;
+        top: 35px;
+        background-color: $light-background;
+      }
+    }
+  }
+}

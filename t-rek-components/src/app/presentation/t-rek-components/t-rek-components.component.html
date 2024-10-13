@@ -1,0 +1,40 @@
+<div [ngClass]="[theme, 'content']">
+  <t-header></t-header>
+  <t-typewriter></t-typewriter>
+
+  <div class="component-container">
+    <h2>{{ gridTitle$ | async }}</h2>
+    <t-grid
+      [data]="data"
+      [sortable]="true"
+      [pageSize]="pageSize"
+      [theme]="theme"
+      [size]="'medium'"
+      (paginationChange)="performFetch($event)"
+    >
+      <t-column
+        name="First Name"
+        property="firstName"
+        [sortable]="true"
+      ></t-column>
+      <t-column
+        name="Last Name"
+        property="lastName"
+        [sortable]="true"
+      ></t-column>
+      <t-column name="Age" property="age" [sortable]="true"></t-column>
+    </t-grid>
+  </div>
+
+  <div class="component-container">
+    <h2>{{ progressTitle$ | async }}</h2>
+    <t-progress
+      [radius]="75"
+      [progress]="progressValue"
+      [color]="theme === 'light' ? '#6a5acd' : '#f0e68c'"
+      [theme]="theme"
+      [size]="size"
+      (complete)="onProgressComplete()"
+    ></t-progress>
+  </div>
+</div>

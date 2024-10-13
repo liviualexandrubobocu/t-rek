@@ -8,9 +8,8 @@ describe('TSelectComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TSelectComponent]
-    })
-    .compileComponents();
+      imports: [TSelectComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(TSelectComponent);
     component = fixture.componentInstance;

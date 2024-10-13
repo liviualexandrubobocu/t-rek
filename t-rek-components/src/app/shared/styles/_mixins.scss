@@ -1,4 +1,9 @@
-@mixin button-theme($primary-color, $secondary-color, $text-color, $border-color) {
+@mixin button-theme(
+  $primary-color,
+  $secondary-color,
+  $text-color,
+  $border-color
+) {
   background-color: $primary-color;
   color: $text-color;
   border: 1px solid $border-color;
@@ -14,7 +19,12 @@
   }
 }
 
-@mixin select-theme($primary-color, $secondary-color, $text-color, $border-color) {
+@mixin select-theme(
+  $primary-color,
+  $secondary-color,
+  $text-color,
+  $border-color
+) {
   background-color: $primary-color;
   color: $text-color;
   border-color: $border-color;
@@ -30,7 +40,12 @@
   }
 }
 
-@mixin grid-theme($primary-color, $secondary-color, $text-color, $border-color) {
+@mixin grid-theme(
+  $primary-color,
+  $secondary-color,
+  $text-color,
+  $border-color
+) {
   background-color: $primary-color;
   color: $text-color;
 

@@ -1,0 +1,16 @@
+{
+  "presentation": {
+    "mainTitle": "T-Rek Components",
+    "gridTitle": "T-Rek Grid",
+    "progressTitle": "T-Rek Progress"
+  },
+  "lib": {
+    "grid": {
+      "pageSizeText": "Page Size: ",
+      "pageText": "Page: ",
+      "pageOfText": "of",
+      "previousButtonText": "Previous",
+      "nextButtonText": "Next"
+    }
+  }
+}

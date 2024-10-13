@@ -11,7 +11,7 @@ const meta: Meta<TButtonComponent> = {
   title: 'Components/TButton',
   component: TButtonComponent,
   excludeStories: /.*Data$/,
-  tags: ['autodocs']
+  tags: ['autodocs'],
 };
 
 export default meta;

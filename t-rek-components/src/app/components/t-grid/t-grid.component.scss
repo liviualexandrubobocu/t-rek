@@ -1,16 +1,25 @@
-
-@import '../../shared/styles/variables';
-@import '../../shared/styles/mixins';
+@import "../../shared/styles/variables";
+@import "../../shared/styles/mixins";
 
 .t-grid {
   width: 100%;
 
   &.light {
-    @include grid-theme($light-primary-color, $light-secondary-color, $light-text-color, $light-border-color);
+    @include grid-theme(
+      $light-primary-color,
+      $light-secondary-color,
+      $light-text-color,
+      $light-border-color
+    );
   }
 
   &.dark {
-    @include grid-theme($dark-primary-color, $dark-secondary-color, $dark-text-color, $dark-border-color);
+    @include grid-theme(
+      $dark-primary-color,
+      $dark-secondary-color,
+      $dark-text-color,
+      $dark-border-color
+    );
   }
 
   &.small {
@@ -52,7 +61,7 @@
       }
 
       &.sorted::after {
-        content: '';
+        content: "";
         position: absolute;
         right: 8px;
         top: 50%;

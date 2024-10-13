@@ -1,0 +1,44 @@
+@import "../../shared/styles/variables";
+
+.image-container {
+  display: flex;
+  width: 100%;
+}
+
+.image-container {
+  display: flex;
+  max-width: 90%;
+  img {
+    width: 10%;
+    height: auto;
+    align-items: center;
+  }
+}
+
+.component-container {
+  margin: $t-margin;
+  padding: $t-padding;
+}
+
+.component-container {
+  h2 {
+    width: 100%;
+  }
+}
+
+.typewriter {
+  padding: 0 $t-padding;
+  height: auto;
+  p {
+    display: inline-block;
+    white-space: nowrap;
+    padding-right: 5px; /* Add some space between the text and caret */
+    margin-bottom: $t-margin-small; /* Add some spacing between paragraphs */
+  }
+}
+
+.content {
+  margin-top: 80px;
+  padding: 20px;
+  height: 2000px;
+}

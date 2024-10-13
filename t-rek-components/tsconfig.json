@@ -17,9 +17,9 @@
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,
-    "target": "ES2022",
-    "module": "ES2022",
-    "lib": ["ES2022", "dom"]
+    "target": "esnext",
+    "module": "esnext",
+    "lib": ["esnext", "dom", "esnext.array"]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

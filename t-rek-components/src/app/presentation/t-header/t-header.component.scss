@@ -1,0 +1,16 @@
+@import "../../shared/styles/variables";
+
+.fixed-header {
+  position: fixed;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  top: 0;
+  left: 0;
+  padding: 0 calc(4 * $t-padding);
+  width: calc(100% - calc(8 * $t-padding));
+  background-color: #fff;
+  border-bottom: 2px solid #ccc;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}

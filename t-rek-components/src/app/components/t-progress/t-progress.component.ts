@@ -1,44 +1,135 @@
-import { CommonModule } from '@angular/common';
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ElementRef,
+  ViewChild,
+  AfterViewInit,
+  OnDestroy,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  signal,
+  effect,
+} from '@angular/core';
+import { TProgressService } from './t-progress.service';
+import { Subscription } from 'rxjs';
+import { Size, Theme } from '../../types/theme';
 
 @Component({
   selector: 't-progress',
   templateUrl: './t-progress.component.html',
   styleUrls: ['./t-progress.component.scss'],
+  providers: [TProgressService],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[class.light]': "theme === 'light'",
+    '[class.dark]': "theme === 'dark'",
+    '[class.small]': "size === 'small'",
+    '[class.medium]': "size === 'medium'",
+    '[class.large]': "size === 'large'",
+  },
   standalone: true,
-  imports: [CommonModule]
 })
-export class TProgressComponent implements OnChanges {
-  @Input() radius: number = 50; 
-  @Input() progress: number = 0;
-  @Input() color: string = '#00BCD4';
+export class TProgressComponent implements AfterViewInit, OnDestroy {
+  private radiusSignal = signal<number>(50);
+  private progressSignal = signal<number>(0);
+  private colorSignal = signal<string>('#6a5acd');
+  private themeSignal = signal<Theme>('dark');
+  private sizeSignal = signal<Size>('medium');
 
-  @Input() theme: 'light' | 'dark' = 'light';
-  @Input() size: 'small' | 'medium' | 'large' = 'medium';
+  @Input()
+  set radius(value: number) {
+    this.radiusSignal.set(Math.max(value, 50));
+  }
+  get radius(): number {
+    return this.radiusSignal();
+  }
+
+  @Input()
+  set progress(value: number) {
+    this.progressSignal.set(Math.min(Math.max(value, 0), 100));
+  }
+  get progress(): number {
+    return this.progressSignal();
+  }
+
+  @Input()
+  set color(value: string) {
+    this.colorSignal.set(value);
+  }
+  get color(): string {
+    return this.colorSignal();
+  }
+
+  @Input()
+  set theme(value: Theme) {
+    this.themeSignal.set(value);
+  }
+  get theme(): Theme {
+    return this.themeSignal();
+  }
+
+  @Input()
+  set size(value: Size) {
+    this.sizeSignal.set(value);
+  }
+  get size(): Size {
+    return this.sizeSignal();
+  }
 
   @Output() complete = new EventEmitter<void>();
 
-  strokeDasharray: string = '';
-  strokeDashoffset: string = '';
+  @ViewChild('progressCanvas') canvasRef!: ElementRef<HTMLCanvasElement>;
 
-  circumference: number = 0;
+  private progressSubscription: Subscription | null = null;
 
-  ngOnChanges(): void {
-    this.calculateProgress();
-
-    if (this.progress >= 100) {
-      this.complete.emit();
-    }
+  constructor(
+    private progressService: TProgressService,
+    private cdr: ChangeDetectorRef,
+  ) {
+    effect(() => {
+      if (this.canvasRef) {
+        this.progressService.initialize(
+          this.canvasRef.nativeElement,
+          this.radiusSignal(),
+          this.colorSignal(),
+          this.themeSignal(),
+          this.sizeSignal(),
+        );
+        this.progressService.setAnimationDuration(3500);
+        this.animateProgress();
+      }
+    });
   }
 
-  private calculateProgress(): void {
-    const normalizedRadius = this.radius - 10;
-    this.circumference = normalizedRadius * 2 * Math.PI;
+  ngAfterViewInit(): void {
+    this.cdr.markForCheck();
+  }
 
-    const progressPercent = Math.min(Math.max(this.progress, 0), 100);
-    const offset = this.circumference - (progressPercent / 100) * this.circumference;
+  ngOnDestroy(): void {
+    if (this.progressSubscription) {
+      this.progressSubscription.unsubscribe();
+    }
+    this.progressService.destroy();
+  }
 
-    this.strokeDasharray = `${this.circumference} ${this.circumference}`;
-    this.strokeDashoffset = offset.toString();
+  private animateProgress(): void {
+    if (this.progressSubscription) {
+      this.progressSubscription.unsubscribe();
+    }
+
+    this.progressSubscription = this.progressService
+      .animateProgress(this.progressSignal())
+      .subscribe({
+        next: () => {
+          this.cdr.markForCheck();
+        },
+        complete: () => {
+          if (this.progressSignal() >= 100) {
+            this.complete.emit();
+          }
+        },
+      });
   }
 }

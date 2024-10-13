@@ -1,19 +1,29 @@
+$t-margin: 1em;
+$t-margin-small: 0.5em;
+$t-padding: 1em;
+
+$dark-primary-color: #1d2951;
+$dark-secondary-color: #0b3d91;
+$dark-tertiary-color: #6a5acd;
+$dark-accent-color-1: #ff6f61;
+$dark-accent-color-2: #f4a460;
+$dark-text-color: #fff8dc;
+$dark-border-color: #4b4e6d;
+
+$light-primary-color: #ffffff;
+$light-secondary-color: #fff8dc;
+$light-tertiary-color: #f0e68c;
+$light-accent-color-1: #ff7f50;
+$light-accent-color-2: #20b2aa;
+$light-text-color: #1d2951;
+$light-border-color: #a2aebb;
 
 
-// Dark Theme
-$dark-primary-color: #1D2951;
-$dark-secondary-color: #0B3D91;
-$dark-text-color: #FFF8DC;
-$dark-border-color: #4B4E6D;
-
-// Light Theme
-$light-primary-color: #FFFFFF;
-$light-secondary-color: #FFF8DC;
-$light-text-color: #1D2951;
-$light-border-color: #A2AEBB; 
+$light-background: $light-secondary-color;
+$dark-background: $dark-primary-color;
 
 $void-black: #000000;
-$comet-white: #FFFFFF;
+$comet-white: #ffffff;
 
 $light-progress-bg-color: rgba(0, 0, 0, 0.1);
 $dark-progress-bg-color: rgba(255, 255, 255, 0.2);

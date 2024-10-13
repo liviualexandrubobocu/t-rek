@@ -7,14 +7,20 @@ import {
   QueryList,
   AfterContentInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
+  signal,
+  OnInit,
 } from '@angular/core';
 import { TColumnComponent } from '../t-column/t-column.component';
 import { Direction } from '../../models/direction.enum';
-import { Observable, isObservable } from 'rxjs';
+import { Observable, of, combineLatest, map, defer } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { TButtonComponent } from '../t-button/t-button.component';
 import { TSelectComponent } from '../t-select/t-select.component';
+import { sortData } from '../../utils/sorting.utils';
+import { paginateData } from '../../utils/pagination.utils';
+import { toObservable } from '@angular/core/rxjs-interop';
+import { TranslocoService } from '@jsverse/transloco';
+import { Size, Theme } from '../../types/theme';
 
 @Component({
   selector: 't-grid',
@@ -25,12 +31,21 @@ import { TSelectComponent } from '../t-select/t-select.component';
   imports: [CommonModule, TButtonComponent, TSelectComponent],
 })
 export class TGridComponent<T> implements AfterContentInit {
-  @Input() data!: T[] | Observable<T[]>;
+  private _data!: T[] | Observable<T[]>;
+
+  @Input() set data(value: T[] | Observable<T[]>) {
+    this._data = value;
+    // No need to manually subscribe; handled in data$ getter
+  }
+  get data(): T[] | Observable<T[]> {
+    return this._data;
+  }
+
   @Input() sortable: boolean = false;
   @Input() pageSize: number | null = null;
-  
-  @Input() theme: 'light' | 'dark' = 'light';
-  @Input() size: 'small' | 'medium' | 'large' = 'medium';
+
+  @Input() theme!: Theme;
+  @Input() size!: Size;
 
   @Output() sortChange = new EventEmitter<{
     columnName: keyof T;
@@ -43,112 +58,123 @@ export class TGridComponent<T> implements AfterContentInit {
 
   @ContentChildren(TColumnComponent) columns!: QueryList<TColumnComponent<T>>;
 
-  displayedData: T[] = [];
-
-  currentPage: number = 1;
-  totalPages: number = 1;
-  totalItems: number = 0;
   pageSizes = [5, 10, 25, 50, 100];
-  pageSizeOptions = this.pageSizes.map((size) => ({ value: size, label: size.toString() }));
+  pageSizeOptions = this.pageSizes.map((size) => ({
+    value: size,
+    label: size.toString(),
+  }));
+  pageSizeText$!: Observable<string>;
+  pageText$!: Observable<string>;
+  pageOfText$!: Observable<string>;
+  previousButtonText$!: Observable<string>;
+  nextButtonText$!: Observable<string>;
 
-  sortDirection: Direction | null = null;
-  sortColumn: keyof T | null = null;
+  sortDirection = signal<'asc' | 'desc' | null>(null);
+  sortColumn = signal<keyof T | null>(null);
+  currentPage = signal<number>(1);
+  pageSizeSignal = signal<number | null>(null);
 
-  private allData: T[] = [];
+  totalItems = signal<number>(0);
+  totalPages = signal<number>(1);
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  get data$(): Observable<T[]> {
+    return defer(() => {
+      if (this.isObservable(this.data)) {
+        return this.data as Observable<T[]>;
+      } else {
+        return of(this.data as T[]);
+      }
+    });
+  }
+
+  processedData$ = combineLatest([
+    this.data$,
+    toObservable(this.sortColumn),
+    toObservable(this.sortDirection),
+    toObservable(this.currentPage),
+    toObservable(this.pageSizeSignal),
+  ]).pipe(
+    map(([data, sortColumn, sortDirection, currentPage, pageSize]) => {
+      let processedData = [...data];
+
+      this.totalItems.set(data.length);
+
+      if (this.sortable && sortColumn && sortDirection) {
+        processedData = sortData(processedData, sortColumn, sortDirection);
+      }
+
+      if (pageSize && pageSize > 0) {
+        const totalPages = Math.ceil(processedData.length / pageSize);
+        this.totalPages.set(totalPages);
+        processedData = paginateData(processedData, currentPage, pageSize);
+      } else {
+        this.totalPages.set(1);
+      }
+
+      return processedData;
+    }),
+  );
+
+  constructor(private translocoService: TranslocoService) {}
 
   ngAfterContentInit() {
-    this.initializeData();
-  }
-
-  private initializeData() {
-    if (isObservable(this.data)) {
-      (this.data as Observable<T[]>).subscribe((data) => {
-        this.allData = data;
-        this.totalItems = data.length;
-        this.updateDisplayedData();
-        this.cdr.markForCheck();
-      });
-    } else {
-      this.allData = this.data as T[];
-      this.totalItems = this.allData.length;
-      this.updateDisplayedData();
-      this.cdr.markForCheck();
+    if (this.pageSize) {
+      this.pageSizeSignal.set(this.pageSize);
     }
-  }
-
-  private updateDisplayedData() {
-    let data = [...this.allData];
-
-    // Apply sorting
-    if (this.sortable && this.sortColumn && this.sortDirection) {
-      data.sort((a, b) => {
-        const valueA = a[this.sortColumn!];
-        const valueB = b[this.sortColumn!];
-        if (valueA < valueB) {
-          return this.sortDirection === Direction.ASC ? -1 : 1;
-        } else if (valueA > valueB) {
-          return this.sortDirection === Direction.ASC ? 1 : -1;
-        } else {
-          return 0;
-        }
-      });
-    }
-
-    if (this.pageSize && this.pageSize > 0) {
-      this.totalPages = Math.ceil(data.length / this.pageSize);
-      const startIndex = (this.currentPage - 1) * this.pageSize;
-      const endIndex = startIndex + this.pageSize;
-      this.displayedData = data.slice(startIndex, endIndex);
-    } else {
-      this.displayedData = data;
-      this.totalPages = 1;
-    }
+    this.pageSizeText$ = this.translocoService.selectTranslate(
+      'lib.grid.pageSizeText',
+    );
+    this.pageText$ = this.translocoService.selectTranslate('lib.grid.pageText');
+    this.pageOfText$ = this.translocoService.selectTranslate(
+      'lib.grid.pageOfText',
+    );
+    this.previousButtonText$ = this.translocoService.selectTranslate(
+      'lib.grid.previousButtonText',
+    );
+    this.nextButtonText$ = this.translocoService.selectTranslate(
+      'lib.grid.nextButtonText',
+    );
   }
 
   onHeaderClick(column: TColumnComponent<T>) {
     if (!column.sortable || !this.sortable) {
       return;
     }
-    if (this.sortColumn === column.property) {
-      this.sortDirection =
-        this.sortDirection === Direction.ASC ? Direction.DESC : Direction.ASC;
+    if (this.sortColumn() === column.property) {
+      const newDirection = this.sortDirection() === 'asc' ? 'desc' : 'asc';
+      this.sortDirection.set(newDirection);
     } else {
-      this.sortColumn = column.property;
-      this.sortDirection = Direction.ASC;
+      this.sortColumn.set(column.property);
+      this.sortDirection.set('asc');
     }
     this.sortChange.emit({
-      columnName: this.sortColumn!,
-      direction: this.sortDirection,
+      columnName: this.sortColumn()!,
+      direction: this.sortDirection() as Direction,
     });
-    this.currentPage = 1;
-    this.updateDisplayedData();
-    this.cdr.markForCheck();
+    this.currentPage.set(1);
   }
 
-  onPageSizeChange(event: Event) {
-    const value = event;
-    this.pageSize = Number(value);
-    this.currentPage = 1;
+  onPageSizeChange(event: any) {
+    this.pageSizeSignal.set(Number(event.target.value));
+    this.currentPage.set(1);
     this.paginationChange.emit({
-      currentPage: this.currentPage,
-      pageSize: this.pageSize,
+      currentPage: this.currentPage(),
+      pageSize: this.pageSizeSignal(),
     });
-    this.updateDisplayedData();
-    this.cdr.markForCheck();
   }
 
   goToPage(page: number) {
-    if (page < 1 || page > this.totalPages) {
+    if (page < 1 || page > this.totalPages()) {
       return;
     }
-    this.currentPage = page;
+    this.currentPage.set(page);
     this.paginationChange.emit({
-      currentPage: this.currentPage,
-      pageSize: this.pageSize,
+      currentPage: this.currentPage(),
+      pageSize: this.pageSizeSignal(),
     });
-    this.updateDisplayedData();
-    this.cdr.markForCheck();
+  }
+
+  private isObservable(obj: any): obj is Observable<T[]> {
+    return obj && typeof obj.subscribe === 'function';
   }
 }

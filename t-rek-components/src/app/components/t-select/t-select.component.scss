@@ -1,37 +1,48 @@
-@import '../../shared/styles/variables';
-@import '../../shared/styles/mixins';
+@import "../../shared/styles/variables";
+@import "../../shared/styles/mixins";
 
 .t-select {
-    font-family: inherit;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s, border-color 0.3s;
-    border: 1px solid;
-    appearance: none;
+  font-family: inherit;
+  border-radius: 4px;
+  cursor: pointer;
+  transition:
+    background-color 0.3s,
+    border-color 0.3s;
+  border: 1px solid;
+  appearance: none;
+  padding: 0.5em 1em;
+
+  /* Sizes */
+  &.small {
+    font-size: 0.8em;
+    padding: 0.25em 0.5em;
+  }
+
+  &.medium {
+    font-size: 1em;
     padding: 0.5em 1em;
-  
-    /* Sizes */
-    &.small {
-      font-size: 0.8em;
-      padding: 0.25em 0.5em;
-    }
-  
-    &.medium {
-      font-size: 1em;
-      padding: 0.5em 1em;
-    }
-  
-    &.large {
-      font-size: 1.2em;
-      padding: 0.75em 1.5em;
-    }
-  
-    /* Themes */
-    &.light {
-      @include select-theme($light-primary-color, $light-secondary-color, $light-text-color, $light-border-color);
-    }
-  
-    &.dark {
-      @include select-theme($dark-primary-color, $dark-secondary-color, $dark-text-color, $dark-border-color);
-    }
+  }
+
+  &.large {
+    font-size: 1.2em;
+    padding: 0.75em 1.5em;
+  }
+
+  &.light {
+    @include select-theme(
+      $light-primary-color,
+      $light-secondary-color,
+      $light-text-color,
+      $light-border-color
+    );
+  }
+
+  &.dark {
+    @include select-theme(
+      $dark-primary-color,
+      $dark-secondary-color,
+      $dark-text-color,
+      $dark-border-color
+    );
+  }
 }

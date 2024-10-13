@@ -1,5 +1,5 @@
-@import '../../shared/styles/variables';
-@import '../../shared/styles/mixins';
+@import "../../shared/styles/variables";
+@import "../../shared/styles/mixins";
 
 .t-button {
   font-family: inherit;
@@ -23,13 +23,21 @@
     padding: 0.75em 1.5em;
   }
 
-  /* Themes */
   &.light {
-    @include button-theme($light-primary-color, $light-secondary-color, $light-text-color, $light-border-color);
+    @include button-theme(
+      $light-primary-color,
+      $light-secondary-color,
+      $light-text-color,
+      $light-border-color
+    );
   }
 
   &.dark {
-    @include button-theme($dark-primary-color, $dark-secondary-color, $dark-text-color, $dark-border-color);
+    @include button-theme(
+      $dark-primary-color,
+      $dark-secondary-color,
+      $dark-text-color,
+      $dark-border-color
+    );
   }
 }
-

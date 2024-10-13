@@ -1,69 +1,32 @@
+:host {
+  display: block;
+  margin: auto;
+  max-width: 100%;
+  max-height: 100%;
 
-@import '../../shared/styles/variables';
-@import '../../shared/styles/mixins';
-
-svg {
+  canvas {
     display: block;
-    margin: auto;
-    max-width: 100%;
-    max-height: 100%;
+    font-family: inherit;
+  }
 
-    .progress-bg {
-      fill: none;
-      stroke: $progress-bg-color;
-    }
-  
-    .progress-bar {
-      fill: none;
-      transition: stroke-dashoffset 0.35s;
-      transform: rotate(-90deg);
-      transform-origin: center;
-    }
-  
-    .progress-text {
-      font-size: 1em;
-      fill: $text-color;
-      font-family: inherit;
-    }
-  
-    /* Themes */
-    &.light {
-      $progress-bg-color: rgba(0, 0, 0, 0.1);
-      $text-color: $light-text-color;
-    }
-  
-    &.dark {
-      $progress-bg-color: rgba(255, 255, 255, 0.2);
-      $text-color: $dark-text-color;
-    }
-  
-    /* Sizes */
-    &.small {
+  &.small {
+    canvas {
       width: 100px;
       height: 100px;
-  
-      .progress-text {
-        font-size: 0.8em;
-      }
-    }
-  
-    &.medium {
-      width: 150px;
-      height: 150px;
-  
-      .progress-text {
-        font-size: 1em;
-      }
-    }
-  
-    &.large {
-      width: 200px;
-      height: 200px;
-  
-      .progress-text {
-        font-size: 1.2em;
-        color: $progress-bg-color;
-      }
     }
   }
-  
+
+  &.medium {
+    canvas {
+      width: 150px;
+      height: 150px;
+    }
+  }
+
+  &.large {
+    canvas {
+      width: 200px;
+      height: 200px;
+    }
+  }
+}

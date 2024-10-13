@@ -7,58 +7,58 @@
           (click)="onHeaderClick(column)"
           [class.sortable]="sortable && column.sortable"
           [ngClass]="{
-            'sorted': sortable && column.sortable && sortColumn === column.property
+            sorted:
+              sortable && column.sortable && sortColumn() === column.property,
           }"
         >
           {{ column.name }}
-          <span
-            *ngIf="
-              sortable && column.sortable && sortColumn === column.property
-            "
-          >
-            <span *ngIf="sortDirection === 'asc'">&#9650;</span>
-            <span *ngIf="sortDirection === 'desc'">&#9660;</span>
+          <span *ngIf="sortable && sortColumn() === column.property">
+            {{ sortDirection() === "asc" ? "↑" : "↓" }}
           </span>
         </th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let row of displayedData">
+      <tr *ngFor="let item of processedData$ | async">
         <td *ngFor="let column of columns">
-          {{ row[column.property] }}
+          {{ item[column.property] }}
         </td>
       </tr>
     </tbody>
   </table>
 
-  <div class="pagination-controls" *ngIf="pageSize && pageSize > 0">
+  <div class="pagination-controls">
     <div class="page-size-selector">
-      <label for="pageSize">Page Size:</label>
+      <label>{{ pageSizeText$ | async }}</label>
       <t-select
         [options]="pageSizeOptions"
-        [selectedValue]="pageSize"
+        [value]="pageSizeSignal()"
+        (change)="onPageSizeChange($event)"
         [theme]="theme"
         [size]="size"
-        (selectionChange)="onPageSizeChange($event)"
       ></t-select>
     </div>
     <div class="pagination-buttons">
       <t-button
         [theme]="theme"
         [size]="size"
-        (click)="goToPage(currentPage - 1)"
-        [disabled]="currentPage === 1"
+        (click)="goToPage(currentPage() - 1)"
+        [disabled]="currentPage() === 1"
       >
-        Previous
+        {{ previousButtonText$ | async }}
       </t-button>
-      <span>Page {{ currentPage }} of {{ totalPages }}</span>
+      <span
+        >{{ pageText$ | async }} {{ currentPage() }} {{ pageOfText$ | async }}
+        {{ totalPages() }}</span
+      >
+
       <t-button
         [theme]="theme"
         [size]="size"
-        (click)="goToPage(currentPage + 1)"
-        [disabled]="currentPage === totalPages"
+        (click)="goToPage(currentPage() + 1)"
+        [disabled]="currentPage() === totalPages()"
       >
-        Next
+        {{ nextButtonText$ | async }}
       </t-button>
     </div>
   </div>
