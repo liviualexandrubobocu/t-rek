@@ -1,7 +1,9 @@
 <div class="t-grid" [ngClass]="[theme, size]">
   <table>
     <caption class="screen-readers-only">
-      {{ gridCaption$ | async }}
+      {{
+        gridCaption$ | async
+      }}
     </caption>
     <thead>
       <tr>

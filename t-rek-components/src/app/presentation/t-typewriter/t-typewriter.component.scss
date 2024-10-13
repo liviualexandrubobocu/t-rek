@@ -26,32 +26,32 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .typewriter p {
-      animation: none;
-      border-right: none;
-    }
+  .typewriter p {
+    animation: none;
+    border-right: none;
+  }
 }
 
 @media (max-width: 768px) {
-    .image-container {
-        width: 100%;
-        max-width: 100%;
-        display: block;
-        .responsive-image {
-            width: 100%;
-            max-width: calc(100% - 4 * $t-margin);
-            padding: 0;
-            margin: $t-margin 0;
-        }
+  .image-container {
+    width: 100%;
+    max-width: 100%;
+    display: block;
+    .responsive-image {
+      width: 100%;
+      max-width: calc(100% - 4 * $t-margin);
+      padding: 0;
+      margin: $t-margin 0;
     }
+  }
 
   .typewriter {
     font-size: 1rem;
     width: 100%;
-    display:block;
-    max-width:calc(100% - 4 * $t-margin);
+    display: block;
+    max-width: calc(100% - 4 * $t-margin);
     p {
-        line-height: 1.5;
+      line-height: 1.5;
     }
   }
 }

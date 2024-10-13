@@ -89,7 +89,7 @@ export class TProgressComponent implements AfterViewInit, OnDestroy {
   constructor(
     private progressService: TProgressService,
     private cdr: ChangeDetectorRef,
-    private hostElement: ElementRef
+    private hostElement: ElementRef,
   ) {
     effect(() => {
       if (this.canvasRef) {
@@ -114,10 +114,10 @@ export class TProgressComponent implements AfterViewInit, OnDestroy {
   private setupIntersectionObserver(): void {
     this.intersectionObserver = new IntersectionObserver(
       (entries) => {
-        entries.forEach(entry => {
+        entries.forEach((entry) => {
           if (entry.isIntersecting && !this.hasAnimated) {
             this.animateProgress();
-            this.hasAnimated = true; 
+            this.hasAnimated = true;
             this.intersectionObserver.unobserve(entry.target);
           }
         });
@@ -125,7 +125,7 @@ export class TProgressComponent implements AfterViewInit, OnDestroy {
       {
         root: null, // Observe relative to the viewport
         threshold: 0.1, // Trigger when 10% of the component is visible
-      }
+      },
     );
 
     // Observe the host element
