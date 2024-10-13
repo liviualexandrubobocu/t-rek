@@ -5,6 +5,7 @@ import {
   OnInit,
   QueryList,
   ViewChildren,
+  OnDestroy,
 } from '@angular/core';
 
 @Component({
@@ -12,18 +13,20 @@ import {
   standalone: true,
   imports: [CommonModule],
   templateUrl: './t-typewriter.component.html',
-  styleUrl: './t-typewriter.component.scss',
+  styleUrls: ['./t-typewriter.component.scss'],
 })
-export class TTypewriterComponent implements OnInit {
+export class TTypewriterComponent implements OnInit, OnDestroy {
   paragraphs: string[] = [
     'T-Rek Components is a component library built on top of Angular that is flexible for content use and theming.',
-    'For now we are only able to show T-Rek Grid, our Grid built with Signals and Observables.',
-    'and our T-Rek Progress component, built on top of SVG.',
+    'For now we are only able to show T-Rek Grid, our Grid built with Signals and Observables',
+    'and our T-Rek Progress component, built on top of Signals, Observables and Canvas.',
   ];
 
   displayedParagraphs: string[] = [];
-  typingSpeed = 50;
+  typingSpeed = 20;
   currentParagraphIndex = 0;
+  typingId!: number;
+  private isDestroyed = false;
   @ViewChildren('typewriter') typewriters!: QueryList<ElementRef>;
 
   ngOnInit() {
@@ -39,17 +42,33 @@ export class TTypewriterComponent implements OnInit {
 
     let currentIndex = 0;
     this.displayedParagraphs.push('');
+    let lastTime = 0;
 
-    const typingInterval = setInterval(() => {
-      this.displayedParagraphs[paragraphIndex] +=
-        this.paragraphs[paragraphIndex][currentIndex];
-      currentIndex++;
+    const typeLetter = (timestamp: number) => {
+      if (!lastTime) lastTime = timestamp;
+      const delta = timestamp - lastTime;
 
-      if (currentIndex === this.paragraphs[paragraphIndex].length) {
-        clearInterval(typingInterval);
+      if (delta >= this.typingSpeed) {
+        this.displayedParagraphs[paragraphIndex] += this.paragraphs[paragraphIndex][currentIndex];
+        currentIndex++;
+        lastTime = timestamp;
+      }
+
+      if (currentIndex < this.paragraphs[paragraphIndex].length) {
+        if (!this.isDestroyed) {
+          this.typingId = requestAnimationFrame(typeLetter);
+        }
+      } else {
         this.currentParagraphIndex++;
         this.typeParagraph(this.currentParagraphIndex);
       }
-    }, this.typingSpeed);
+    };
+
+    this.typingId = requestAnimationFrame(typeLetter);
+  }
+
+  ngOnDestroy() {
+    this.isDestroyed = true;
+    cancelAnimationFrame(this.typingId);
   }
 }

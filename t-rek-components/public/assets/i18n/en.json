@@ -10,7 +10,9 @@
       "pageText": "Page: ",
       "pageOfText": "of",
       "previousButtonText": "Previous",
-      "nextButtonText": "Next"
+      "nextButtonText": "Next",
+      "previousButtonAriaLabel": "Previous Page",
+      "nextButtonAriaLabel": "Next Page"
     }
   }
 }

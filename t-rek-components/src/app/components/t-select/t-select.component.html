@@ -1,9 +1,11 @@
+<label for="pageSelect">{{ pageSizeText$ | async }}</label>
 <select
   [ngClass]="['t-select', theme, size]"
   [disabled]="disabled"
   [value]="value"
   (change)="onSelectionChange($event)"
   id="pageSelect"
+  aria-labelledby="pageSelectLabel"
 >
   <option *ngFor="let option of options" [value]="option.value">
     {{ option.label }}

@@ -13,4 +13,5 @@ export class TButtonComponent {
   @Input() theme: Theme = 'dark';
   @Input() size: Size = 'medium';
   @Input() disabled: boolean = false;
+  @Input() ariaLabel!: string | null;
 }

@@ -101,3 +101,37 @@
     }
   }
 }
+
+.screen-readers-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+th[role="button"]:focus,
+t-button:focus,
+t-select:focus {
+  outline: 2px solid #005fcc;
+  outline-offset: 2px;
+}
+
+@media (max-width: 600px) {
+  .t-grid table {
+    display: block;
+    overflow-x: auto;
+  }
+
+  .pagination-controls {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .pagination-buttons {
+    margin-top: 0.5rem;
+  }
+}

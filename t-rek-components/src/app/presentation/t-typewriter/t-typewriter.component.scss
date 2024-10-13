@@ -16,3 +16,9 @@
     align-items: center;
   }
 }
+
+.typewriter {
+    p {
+        margin: calc($t-margin * 0.5) $t-margin;
+    }
+}

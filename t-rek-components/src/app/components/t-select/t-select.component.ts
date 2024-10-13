@@ -1,5 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { TranslocoService } from '@jsverse/transloco';
+import { Observable } from 'rxjs';
 import { Size, Theme } from '../../types/theme';
 
 @Component({
@@ -15,11 +17,21 @@ export class TSelectComponent {
   @Input() size: Size = 'medium';
   @Input() disabled: boolean = false;
   @Input() value: any;
-
   @Output() selectionChange = new EventEmitter<any>();
+  
+  pageSizeText$!: Observable<string>;
 
   onSelectionChange(event: Event) {
     const value = (event.target as HTMLSelectElement).value;
     this.selectionChange.emit(value);
+  }
+
+  constructor(private translocoService: TranslocoService){
+  }
+
+  ngOnInit(){
+    this.pageSizeText$ = this.translocoService.selectTranslate(
+      'lib.grid.pageSizeText',
+    );
   }
 }

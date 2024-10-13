@@ -1,5 +1,6 @@
 <div class="t-grid" [ngClass]="[theme, size]">
   <table>
+    <caption class="screen-readers-only">Data Table</caption>
     <thead>
       <tr>
         <th
@@ -9,57 +10,75 @@
           [ngClass]="{
             sorted:
               sortable && column.sortable && sortColumn() === column.property,
+            'sorted-asc':
+              sortable && column.sortable && sortColumn() === column.property && sortDirection() === 'asc',
+            'sorted-desc':
+              sortable && column.sortable && sortColumn() === column.property && sortDirection() === 'desc'
           }"
+          scope="col"
+          tabindex="0"
+          role="button"
+          (keydown.enter)="onHeaderClick(column)"
+          (keydown.space)="onHeaderClick(column)"
         >
           {{ column.name }}
-          <span *ngIf="sortable && sortColumn() === column.property">
+          <span *ngIf="sortable && sortColumn() === column.property" aria-hidden="true">
             {{ sortDirection() === "asc" ? "↑" : "↓" }}
+          </span>
+          <span class="screen-readers-only">
+            {{ sortDirection() === "asc" ? "sorted ascending" : "sorted descending" }}
           </span>
         </th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let item of processedData$ | async">
-        <td *ngFor="let column of columns">
+        <td 
+        *ngFor="let column of columns" 
+        [attr.data-label]="column.name"
+        tabindex="0">
           {{ item[column.property] }}
         </td>
       </tr>
     </tbody>
   </table>
 
-  <div class="pagination-controls">
-    <div class="page-size-selector">
-      <label>{{ pageSizeText$ | async }}</label>
-      <t-select
-        [options]="pageSizeOptions"
-        [value]="pageSizeSignal()"
-        (change)="onPageSizeChange($event)"
-        [theme]="theme"
-        [size]="size"
-      ></t-select>
-    </div>
-    <div class="pagination-buttons">
-      <t-button
-        [theme]="theme"
-        [size]="size"
-        (click)="goToPage(currentPage() - 1)"
-        [disabled]="currentPage() === 1"
-      >
-        {{ previousButtonText$ | async }}
-      </t-button>
-      <span
-        >{{ pageText$ | async }} {{ currentPage() }} {{ pageOfText$ | async }}
-        {{ totalPages() }}</span
-      >
+  <nav aria-label="Pagination">
+    <div class="pagination-controls">
+      <div class="page-size-selector">
+        <t-select
+          id="pageSizeSelect"
+          [options]="pageSizeOptions"
+          [value]="pageSizeSignal()"
+          (change)="onPageSizeChange($event)"
+          [theme]="theme"
+          [size]="size"
+        ></t-select>
+      </div>
 
-      <t-button
-        [theme]="theme"
-        [size]="size"
-        (click)="goToPage(currentPage() + 1)"
-        [disabled]="currentPage() === totalPages()"
-      >
-        {{ nextButtonText$ | async }}
-      </t-button>
+      <div class="pagination-buttons">
+        <t-button
+          [theme]="theme"
+          [size]="size"
+          (click)="goToPage(currentPage() - 1)"
+          [disabled]="currentPage() === 1"
+          [ariaLabel]="previousButtonAriaLabel$ | async"
+        >
+          {{ previousButtonText$ | async }}
+        </t-button>
+        <span aria-live="polite">
+          {{ pageText$ | async }} {{ currentPage() }} {{ pageOfText$ | async }} {{ totalPages() }}
+        </span>
+        <t-button
+          [theme]="theme"
+          [size]="size"
+          (click)="goToPage(currentPage() + 1)"
+          [disabled]="currentPage() === totalPages()"
+          [ariaLabel]="nextButtonAriaLabel$ | async"
+        >
+          {{ nextButtonText$ | async }}
+        </t-button>
+      </div>
     </div>
-  </div>
+  </nav>
 </div>

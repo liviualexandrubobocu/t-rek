@@ -8,7 +8,6 @@ import {
   AfterContentInit,
   ChangeDetectionStrategy,
   signal,
-  OnInit,
 } from '@angular/core';
 import { TColumnComponent } from '../t-column/t-column.component';
 import { Direction } from '../../models/direction.enum';
@@ -35,7 +34,6 @@ export class TGridComponent<T> implements AfterContentInit {
 
   @Input() set data(value: T[] | Observable<T[]>) {
     this._data = value;
-    // No need to manually subscribe; handled in data$ getter
   }
   get data(): T[] | Observable<T[]> {
     return this._data;
@@ -63,11 +61,13 @@ export class TGridComponent<T> implements AfterContentInit {
     value: size,
     label: size.toString(),
   }));
-  pageSizeText$!: Observable<string>;
+
   pageText$!: Observable<string>;
   pageOfText$!: Observable<string>;
   previousButtonText$!: Observable<string>;
+  previousButtonAriaLabel$!: Observable<string>;
   nextButtonText$!: Observable<string>;
+  nextButtonAriaLabel$!: Observable<string>;
 
   sortDirection = signal<'asc' | 'desc' | null>(null);
   sortColumn = signal<keyof T | null>(null);
@@ -121,9 +121,8 @@ export class TGridComponent<T> implements AfterContentInit {
     if (this.pageSize) {
       this.pageSizeSignal.set(this.pageSize);
     }
-    this.pageSizeText$ = this.translocoService.selectTranslate(
-      'lib.grid.pageSizeText',
-    );
+
+    // Translations
     this.pageText$ = this.translocoService.selectTranslate('lib.grid.pageText');
     this.pageOfText$ = this.translocoService.selectTranslate(
       'lib.grid.pageOfText',
@@ -131,8 +130,14 @@ export class TGridComponent<T> implements AfterContentInit {
     this.previousButtonText$ = this.translocoService.selectTranslate(
       'lib.grid.previousButtonText',
     );
+    this.previousButtonAriaLabel$ = this.translocoService.selectTranslate(
+      'lib.grid.previousButtonAriaLabel',
+    );
     this.nextButtonText$ = this.translocoService.selectTranslate(
       'lib.grid.nextButtonText',
+    );
+    this.nextButtonAriaLabel$ = this.translocoService.selectTranslate(
+      'lib.grid.nextButtonAriaLabel',
     );
   }
 
