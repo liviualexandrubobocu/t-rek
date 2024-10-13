@@ -2,7 +2,9 @@
   "presentation": {
     "mainTitle": "T-Rek Components",
     "gridTitle": "T-Rek Grid",
-    "progressTitle": "T-Rek Progress"
+    "progressTitle": "T-Rek Progress",
+    "toggleButtonAriaLabel": "Switch theme between light and dark",
+    "imageAltText": "A collection of Trek bicycle components displayed in an organized layout."
   },
   "lib": {
     "grid": {
@@ -12,7 +14,8 @@
       "previousButtonText": "Previous",
       "nextButtonText": "Next",
       "previousButtonAriaLabel": "Previous Page",
-      "nextButtonAriaLabel": "Next Page"
+      "nextButtonAriaLabel": "Next Page",
+      "gridCaption": "Grid Caption"
     }
   }
 }

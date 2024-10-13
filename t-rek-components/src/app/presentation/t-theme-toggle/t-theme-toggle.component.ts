@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { TranslocoService } from '@jsverse/transloco';
 import { Observable, of } from 'rxjs';
 import { ThemeService } from '../../services/theme.service';
 import { Theme } from '../../types/theme';
@@ -12,11 +13,21 @@ import { Theme } from '../../types/theme';
   standalone: true,
   imports: [CommonModule],
 })
-export class TThemeToggleComponent {
+export class TThemeToggleComponent implements OnInit {
   theme$: Observable<Theme> = of('dark');
+  toggleButtonAriaLabel$!: Observable<string>;
 
-  constructor(private themeService: ThemeService) {
+  constructor(
+    private themeService: ThemeService,
+    private translocoService: TranslocoService,
+  ) {
     this.theme$ = this.themeService.theme$;
+  }
+
+  ngOnInit() {
+    this.toggleButtonAriaLabel$ = this.translocoService.selectTranslate(
+      'presentation.toggleButtonAriaLabel',
+    );
   }
 
   toggleTheme() {

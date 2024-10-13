@@ -1,8 +1,12 @@
+@import "../../shared/styles/variables";
+
 :host {
   display: block;
   margin: auto;
   max-width: 100%;
   max-height: 100%;
+  padding: $t-padding;
+  border-radius: $border-radius;
 
   canvas {
     display: block;
@@ -28,5 +32,9 @@
       width: 200px;
       height: 200px;
     }
+  }
+
+  &.dark {
+    background-color: $dark-primary-color;
   }
 }

@@ -1,4 +1,10 @@
-<div class="theme-toggle" [ngClass]="theme$ | async" (click)="toggleTheme()">
-  <div class="circle small"></div>
-  <div class="circle large"></div>
-</div>
+<button
+  class="theme-toggle"
+  [ngClass]="theme$ | async"
+  (click)="toggleTheme()"
+  [attr.aria-label]="toggleButtonAriaLabel$ | async"
+>
+  <span class="circle small" aria-hidden="true"></span>
+  <span class="circle large" aria-hidden="true"></span>
+  <span class="screen-readers-only">{{ toggleButtonAriaLabel$ | async }}</span>
+</button>

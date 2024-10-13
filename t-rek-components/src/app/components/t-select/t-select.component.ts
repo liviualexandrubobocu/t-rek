@@ -18,7 +18,7 @@ export class TSelectComponent {
   @Input() disabled: boolean = false;
   @Input() value: any;
   @Output() selectionChange = new EventEmitter<any>();
-  
+
   pageSizeText$!: Observable<string>;
 
   onSelectionChange(event: Event) {
@@ -26,10 +26,9 @@ export class TSelectComponent {
     this.selectionChange.emit(value);
   }
 
-  constructor(private translocoService: TranslocoService){
-  }
+  constructor(private translocoService: TranslocoService) {}
 
-  ngOnInit(){
+  ngOnInit() {
     this.pageSizeText$ = this.translocoService.selectTranslate(
       'lib.grid.pageSizeText',
     );

@@ -1,8 +1,13 @@
-<div class="image-container">
-  <img src="./trek_components.webp" loading="lazy" alt="Trek Components" />
-  <div class="typewriter">
+<figure class="image-container">
+  <img
+    src="./trek_components.webp"
+    loading="lazy"
+    [alt]="imageAltText$ | async"
+    class="responsive-image"
+  />
+  <figcaption class="typewriter" aria-live="polite" aria-atomic="true">
     <p *ngFor="let paragraph of displayedParagraphs">
       {{ paragraph }}
     </p>
-  </div>
-</div>
+  </figcaption>
+</figure>

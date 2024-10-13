@@ -68,6 +68,7 @@ export class TGridComponent<T> implements AfterContentInit {
   previousButtonAriaLabel$!: Observable<string>;
   nextButtonText$!: Observable<string>;
   nextButtonAriaLabel$!: Observable<string>;
+  gridCaption$!: Observable<string>;
 
   sortDirection = signal<'asc' | 'desc' | null>(null);
   sortColumn = signal<keyof T | null>(null);
@@ -138,6 +139,9 @@ export class TGridComponent<T> implements AfterContentInit {
     );
     this.nextButtonAriaLabel$ = this.translocoService.selectTranslate(
       'lib.grid.nextButtonAriaLabel',
+    );
+    this.gridCaption$ = this.translocoService.selectTranslate(
+      'lib.grid.gridCaption',
     );
   }
 

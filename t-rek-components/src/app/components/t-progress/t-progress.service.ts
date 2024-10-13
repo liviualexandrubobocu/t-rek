@@ -74,8 +74,8 @@ export class TProgressService {
   }
 
   destroy(): void {
-    if(this.animationId){
-        cancelAnimationFrame(this.animationId);
+    if (this.animationId) {
+      cancelAnimationFrame(this.animationId);
     }
   }
 

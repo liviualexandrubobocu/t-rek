@@ -1,4 +1,5 @@
 @import "../../shared/styles/variables";
+@import "../../shared/styles/mixins";
 
 .theme-toggle {
   position: relative;
@@ -6,8 +7,8 @@
   height: 30px;
   padding: 5px;
   border-radius: 35px;
-  border: 3px solid $dark-secondary-color;
-  background-color: $dark-primary-color;
+  background-color: $light-background;
+  border-color: $dark-accent-color-1;
   overflow: hidden;
   transition: all 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
   cursor: pointer;
@@ -21,7 +22,7 @@
     &.small {
       width: 15px;
       height: 15px;
-      background: $dark-primary-color;
+      background: $light-tertiary-color;
       left: 15px;
       top: 5px;
       z-index: 1000;
@@ -39,21 +40,47 @@
   }
 
   &.dark {
-    background-color: $light-background;
-    border-color: $dark-accent-color-1; // Adjust as per your theme
-
+    border: 3px solid $dark-secondary-color;
+    background-color: $dark-primary-color;
     .circle {
       &.large {
-        left: 40px;
+        left: 30px;
         background: $light-tertiary-color;
-        border-color: $light-accent-color-1;
+        border-color: $light-tertiary-color;
       }
 
       &.small {
         left: 40px;
-        top: 35px;
-        background-color: $light-background;
+        top: 5px;
+        background-color: $dark-primary-color;
       }
     }
+  }
+}
+
+.screen-readers-only {
+  @include screen-readers-only();
+}
+
+.theme-toggle:focus {
+  outline: 2px solid #005fcc; /* High-contrast outline for focus */
+  outline-offset: 2px;
+}
+
+@media (max-width: 768px) {
+  .theme-toggle {
+    padding: 0.25rem;
+    margin-bottom: $t-margin;
+  }
+
+  .theme-toggle .small {
+    width: 0.75rem;
+    height: 0.75rem;
+  }
+
+  .theme-toggle .large {
+    width: 1.5rem;
+    height: 1.5rem;
+    transform: scale(0.7);
   }
 }

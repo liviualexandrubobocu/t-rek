@@ -7,6 +7,8 @@ import {
   ViewChildren,
   OnDestroy,
 } from '@angular/core';
+import { TranslocoService } from '@jsverse/transloco';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 't-typewriter',
@@ -27,10 +29,17 @@ export class TTypewriterComponent implements OnInit, OnDestroy {
   currentParagraphIndex = 0;
   typingId!: number;
   private isDestroyed = false;
+  imageAltText$!: Observable<string>;
+
   @ViewChildren('typewriter') typewriters!: QueryList<ElementRef>;
+
+  constructor(private translocoService: TranslocoService) {}
 
   ngOnInit() {
     this.startTyping();
+    this.imageAltText$ = this.translocoService.selectTranslate(
+      'presentation.imageAltText',
+    );
   }
 
   startTyping() {
@@ -49,7 +58,8 @@ export class TTypewriterComponent implements OnInit, OnDestroy {
       const delta = timestamp - lastTime;
 
       if (delta >= this.typingSpeed) {
-        this.displayedParagraphs[paragraphIndex] += this.paragraphs[paragraphIndex][currentIndex];
+        this.displayedParagraphs[paragraphIndex] +=
+          this.paragraphs[paragraphIndex][currentIndex];
         currentIndex++;
         lastTime = timestamp;
       }
