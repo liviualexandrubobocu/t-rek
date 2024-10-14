@@ -21,6 +21,12 @@ import { toObservable } from '@angular/core/rxjs-interop';
 import { TranslocoService } from '@jsverse/transloco';
 import { Size, Theme } from '../../types/theme';
 
+/**
+ * TGridComponent is a customizable data grid component.
+ * It supports features such as sorting, pagination, theming, and dynamic data handling.
+ *
+ * @template T - The type of data items to be displayed in the grid.
+ */
 @Component({
   selector: 't-grid',
   templateUrl: './t-grid.component.html',
@@ -30,62 +36,147 @@ import { Size, Theme } from '../../types/theme';
   imports: [CommonModule, TButtonComponent, TSelectComponent],
 })
 export class TGridComponent<T> implements AfterContentInit {
+  /**
+   * Internal storage for the data input, which can be an array or an Observable stream.
+   */
   private _data!: T[] | Observable<T[]>;
 
-  @Input() set data(value: T[] | Observable<T[]>) {
+  /**
+   * The data to be displayed in the grid.
+   * Accepts either an array of items or an Observable that emits an array of items.
+   */
+  @Input()
+  set data(value: T[] | Observable<T[]>) {
     this._data = value;
   }
+
+  /**
+   * Retrieves the current data for the grid.
+   */
   get data(): T[] | Observable<T[]> {
     return this._data;
   }
 
+  /**
+   * Enables or disables sorting functionality on the grid.
+   * @default false
+   */
   @Input() sortable = false;
 
+  /**
+   * Defines the theme to be applied to the grid.
+   */
   @Input() theme!: Theme;
+
+  /**
+   * Specifies the size variant of the grid (e.g., small, medium, large).
+   */
   @Input() size!: Size;
 
+  /**
+   * Emits an event when the sort order changes.
+   * The event payload includes the column name and the new sort direction.
+   */
   @Output() sortChange = new EventEmitter<{
     columnName: keyof T;
     direction: Direction;
   }>();
+
+  /**
+   * Emits an event when pagination parameters change.
+   * The event payload includes the current page number and the page size.
+   */
   @Output() paginationChange = new EventEmitter<{
     currentPage: number;
     pageSize: number | null;
   }>();
 
+  /**
+   * Internal storage for the page size.
+   */
   private _pageSize: number | null = null;
-  @Input() set pageSize(value: number | null) {
+
+  /**
+   * Sets the number of items to display per page.
+   * @param value The desired page size or null for no pagination.
+   */
+  @Input()
+  set pageSize(value: number | null) {
     this._pageSize = value;
     this.pageSizeSignal.set(value);
   }
+
+  /**
+   * Retrieves the current page size.
+   */
   get pageSize(): number | null {
     return this._pageSize;
   }
 
+  /**
+   * A QueryList of child TColumnComponent instances representing the grid's columns.
+   */
   @ContentChildren(TColumnComponent) columns!: QueryList<TColumnComponent<T>>;
 
+  /**
+   * Available page size options for pagination.
+   */
   pageSizes = [5, 10, 25, 50, 100];
+
+  /**
+   * Transformed page size options with labels for UI selection.
+   */
   pageSizeOptions = this.pageSizes.map((size) => ({
     value: size,
     label: size.toString(),
   }));
 
+  /** Observable for the "Page" text, used in pagination controls. */
   pageText$!: Observable<string>;
+
+  /** Observable for the "of" text in pagination (e.g., "Page 1 of 10"). */
   pageOfText$!: Observable<string>;
+
+  /** Observable for the "Previous" button text. */
   previousButtonText$!: Observable<string>;
+
+  /** Observable for the "Previous" button ARIA label. */
   previousButtonAriaLabel$!: Observable<string>;
+
+  /** Observable for the "Next" button text. */
   nextButtonText$!: Observable<string>;
+
+  /** Observable for the "Next" button ARIA label. */
   nextButtonAriaLabel$!: Observable<string>;
+
+  /** Observable for the grid's caption text. */
   gridCaption$!: Observable<string>;
 
+  /** Signal to track the current sort direction ('asc', 'desc', or null). */
   sortDirection = signal<'asc' | 'desc' | null>(null);
+
+  /** Signal to track the currently sorted column. */
   sortColumn = signal<keyof T | null>(null);
+
+  /** Signal to track the current page number in pagination. */
   currentPage = signal<number>(1);
+
+  /** Signal to track the current page size in pagination. */
   pageSizeSignal = signal<number | null>(null);
 
+  /** Signal to track the total number of items in the grid. */
   totalItems = signal<number>(0);
+
+  /** Signal to track the total number of pages based on current pagination. */
   totalPages = signal<number>(1);
 
+  /**
+   * Converts the data input into an Observable stream.
+   * If the data is already an Observable, it is returned as is.
+   * Otherwise, the data array is wrapped in an Observable using `of`.
+   *
+   * @returns An Observable emitting the data array.
+   */
   get data$(): Observable<T[]> {
     return defer(() => {
       if (this.isObservable(this.data)) {
@@ -96,6 +187,11 @@ export class TGridComponent<T> implements AfterContentInit {
     });
   }
 
+  /**
+   * Processes the data by applying sorting and pagination.
+   * Combines the latest values of data, sort parameters, and pagination parameters.
+   * Updates total items and total pages accordingly.
+   */
   processedData$ = combineLatest([
     this.data$,
     toObservable(this.sortColumn),
@@ -124,8 +220,17 @@ export class TGridComponent<T> implements AfterContentInit {
     }),
   );
 
+  /**
+   * Injects the TranslocoService for handling translations.
+   *
+   * @param translocoService The Transloco service instance.
+   */
   constructor(private translocoService: TranslocoService) {}
 
+  /**
+   * Lifecycle hook that is called after Angular has fully initialized the component's content.
+   * Initializes translation observables for various UI texts.
+   */
   ngAfterContentInit() {
     // Translations
     this.pageText$ = this.translocoService.selectTranslate('lib.grid.pageText');
@@ -149,6 +254,14 @@ export class TGridComponent<T> implements AfterContentInit {
     );
   }
 
+  /**
+   * Handles click events on column headers to toggle sorting.
+   * If the clicked column is already sorted, it toggles the sort direction.
+   * Otherwise, it sets the clicked column as the new sort column and defaults to ascending order.
+   * Emits the `sortChange` event with the new sort parameters and resets the current page to 1.
+   *
+   * @param column The column component that was clicked.
+   */
   onHeaderClick(column: TColumnComponent<T>) {
     if (!column.sortable || !this.sortable) {
       return;
@@ -167,6 +280,13 @@ export class TGridComponent<T> implements AfterContentInit {
     this.currentPage.set(1);
   }
 
+  /**
+   * Handles changes to the page size selection.
+   * Updates the page size signal, resets the current page to 1,
+   * and emits the `paginationChange` event with the new pagination parameters.
+   *
+   * @param event The DOM event triggered by changing the page size.
+   */
   onPageSizeChange(event: Event) {
     this.pageSizeSignal.set(Number((event?.target as HTMLSelectElement).value));
     this.currentPage.set(1);
@@ -176,6 +296,13 @@ export class TGridComponent<T> implements AfterContentInit {
     });
   }
 
+  /**
+   * Navigates to a specified page number.
+   * Ensures the requested page is within valid bounds before updating.
+   * Emits the `paginationChange` event with the new pagination parameters.
+   *
+   * @param page The page number to navigate to.
+   */
   goToPage(page: number) {
     if (page < 1 || page > this.totalPages()) {
       return;
@@ -187,6 +314,12 @@ export class TGridComponent<T> implements AfterContentInit {
     });
   }
 
+  /**
+   * Determines whether a given object is an Observable.
+   *
+   * @param obj The object to check.
+   * @returns True if the object is an Observable, false otherwise.
+   */
   private isObservable<T>(obj: unknown): obj is Observable<T> {
     return (
       obj !== null &&

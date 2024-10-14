@@ -1,27 +1,51 @@
-# Star T-Rek Components
+# T-Rek Components
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.7.
+## Requirements
 
-## Development server
+ - Install Node 20.11.1
+ - TypeScript 5.4.4
+ - Clone repository
+ - Run: npm i
+ - Start : npm run start
+ - Test: npm run test
+ - Lint: npm run lint
+ - Prettier: npm run prettier
+ - Storybook: npm run storybook
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+# Component library
 
-## Code scaffolding
+Added components:
+ - t-button
+ - t-select
+ - t-column
+ - t-grid
+ - t-progress
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+These Components are styled by light / dark theme. Additionally, they allow a change in size, especially button and select components (small / medium / large).
 
-## Build
+These library components ar within src/app/components folder
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+The presentation layer contains 
 
-## Running unit tests
+ - t-header
+ - t-rek-components
+ - t-theme-toggle
+ - t-typewriter
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+The presentation layer is concentrated in the presentation folder.
+These components are for presentation purposes only and they haven't been extended theme wise.
 
-## Running end-to-end tests
+Unit tests have been added for TGridComponent, TSelectComponent, TProgressService and the two utilities for sorting and pagination.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+All animations leverage requestAnimationFrame() for proper timing.
 
-## Further help
+TGridComponent and TProgressComponent leverage a mix of observables and signals to obtain fine grained reactivity.
+As observables can be unsubscribed via async pipe in the DOM, it was easier for TGridComponent, to chreate a mechanism of automatic cleanup.
+It was also easier to leverage an automatic change detection trigger without manual intervention, due to signal reactivity and reference change.
+For TProgressComponent it was done manually.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+For TProgressComponent complete event has been changed to finalize due to eslint constraints (also mentioned in the component).
+
+Storybook unfortunately doesn't work properly at the current time and it need fixing for data completion.
+
+Components have been enhanced with some accessibility and responsive features.
