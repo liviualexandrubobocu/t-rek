@@ -12,9 +12,6 @@ const meta: Meta<TProgressComponent> = {
   component: TProgressComponent,
   excludeStories: /.*Data$/,
   tags: ['autodocs'],
-  args: {
-    ...ActionsData,
-  },
 };
 
 export default meta;
