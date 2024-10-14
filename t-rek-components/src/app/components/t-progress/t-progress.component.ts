@@ -80,7 +80,7 @@ export class TProgressComponent implements AfterViewInit, OnDestroy {
 
   // renamed from complete because the linter enforces the following rule
   // Output bindings, including aliases, should not be named as standard DOM events
-  @Output() finish = new EventEmitter<void>();
+  @Output() finalize = new EventEmitter<void>();
 
   @ViewChild('progressCanvas') canvasRef!: ElementRef<HTMLCanvasElement>;
 
@@ -156,7 +156,7 @@ export class TProgressComponent implements AfterViewInit, OnDestroy {
         },
         complete: () => {
           if (this.progressSignal() >= 100) {
-            this.complete.emit();
+            this.finalize.emit();
           }
         },
       });
