@@ -5,13 +5,13 @@
  - Install Node 20.11.1
  - TypeScript 5.4.4
  - Clone repository
- - Run: npm i
- - Start : npm run start
- - Build : npm run start
- - Test: npm run test
- - Lint: npm run lint
- - Prettier: npm run prettier
- - Storybook: npm run storybook
+ - Run: `npm i`
+ - Start : `npm run start`
+ - Build : `npm run build`
+ - Test: `npm run test`
+ - Lint: `npm run lint`
+ - Prettier: `npm run prettier`
+ - Storybook: `npm run storybook`
 
 # Component library
 
