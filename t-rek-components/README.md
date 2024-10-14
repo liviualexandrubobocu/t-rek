@@ -7,6 +7,7 @@
  - Clone repository
  - Run: npm i
  - Start : npm run start
+ - Build : npm run start
  - Test: npm run test
  - Lint: npm run lint
  - Prettier: npm run prettier
