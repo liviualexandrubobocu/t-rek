@@ -1,4 +1,3 @@
-// utils/sorting.util.ts
 export function sortData<T>(
   data: T[],
   sortColumn: keyof T,

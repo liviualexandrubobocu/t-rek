@@ -1,7 +1,8 @@
 <label for="pageSelect">{{ pageSizeText$ | async }}</label>
 <select
   [ngClass]="['t-select', theme, size]"
-  [disabled]="disabled"
+  [attr.disabled]="disabled"
+  [(ngModel)]="value"
   [value]="value"
   (change)="onSelectionChange($event)"
   id="pageSelect"

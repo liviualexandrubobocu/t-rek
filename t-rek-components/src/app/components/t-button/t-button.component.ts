@@ -12,6 +12,6 @@ import { Size, Theme } from '../../types/theme';
 export class TButtonComponent {
   @Input() theme: Theme = 'dark';
   @Input() size: Size = 'medium';
-  @Input() disabled: boolean = false;
+  @Input() disabled = false;
   @Input() ariaLabel!: string | null;
 }

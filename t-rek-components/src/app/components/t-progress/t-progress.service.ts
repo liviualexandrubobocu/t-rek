@@ -10,8 +10,17 @@ export class TProgressService {
   private color!: string;
   private theme!: Theme;
   private size!: Size;
-  private duration: number = 3500;
   private animationId!: number;
+
+  private _duration = 3500;
+
+  get duration(){
+      return this._duration;
+  }
+
+  set duration(duration) {
+    this._duration = duration;
+  }
 
   initialize(
     canvas: HTMLCanvasElement,

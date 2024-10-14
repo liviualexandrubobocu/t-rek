@@ -3,7 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { TRekComponentsComponent } from './presentation/t-rek-components/t-rek-components.component';
 
 @Component({
-  selector: 'app-root',
+  selector: 't-root',
   standalone: true,
   imports: [RouterOutlet, TRekComponentsComponent],
   templateUrl: './app.component.html',

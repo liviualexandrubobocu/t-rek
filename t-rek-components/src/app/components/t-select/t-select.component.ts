@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { TranslocoService } from '@jsverse/transloco';
 import { Observable } from 'rxjs';
+import { SelectOption } from '../../types/options';
 import { Size, Theme } from '../../types/theme';
 
 @Component({
@@ -9,15 +11,15 @@ import { Size, Theme } from '../../types/theme';
   templateUrl: './t-select.component.html',
   styleUrls: ['./t-select.component.scss'],
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
 })
-export class TSelectComponent {
-  @Input() options: Array<{ value: any; label: string }> = [];
+export class TSelectComponent implements OnInit {
+  @Input() options: SelectOption[] = [];
   @Input() theme: Theme = 'dark';
   @Input() size: Size = 'medium';
-  @Input() disabled: boolean = false;
-  @Input() value: any;
-  @Output() selectionChange = new EventEmitter<any>();
+  @Input() disabled = false;
+  @Input() value: unknown;
+  @Output() selectionChange = new EventEmitter<string>();
 
   pageSizeText$!: Observable<string>;
 

@@ -78,7 +78,9 @@ export class TProgressComponent implements AfterViewInit, OnDestroy {
     return this.sizeSignal();
   }
 
-  @Output() complete = new EventEmitter<void>();
+  // renamed from complete because the linter enforces the following rule
+  // Output bindings, including aliases, should not be named as standard DOM events
+  @Output() finish = new EventEmitter<void>();
 
   @ViewChild('progressCanvas') canvasRef!: ElementRef<HTMLCanvasElement>;
 
@@ -128,7 +130,6 @@ export class TProgressComponent implements AfterViewInit, OnDestroy {
       },
     );
 
-    // Observe the host element
     this.intersectionObserver.observe(this.hostElement.nativeElement);
   }
 

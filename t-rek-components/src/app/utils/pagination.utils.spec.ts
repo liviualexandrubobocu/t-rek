@@ -56,7 +56,7 @@ describe('paginateData', () => {
 
   it('should return an empty array if the page is out of range', () => {
     const pageSize = 5;
-    const currentPage = 5; // There is no page 5 with this page size
+    const currentPage = 5;
     const paginatedData = paginateData(testData, currentPage, pageSize);
 
     expect(paginatedData).toEqual([]);

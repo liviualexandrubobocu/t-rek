@@ -8,5 +8,5 @@ import { Component, Input } from '@angular/core';
 export class TColumnComponent<T> {
   @Input() name!: string;
   @Input() property!: keyof T;
-  @Input() sortable: boolean = false;
+  @Input() sortable = false;
 }

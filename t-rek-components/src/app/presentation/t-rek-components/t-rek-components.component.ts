@@ -25,14 +25,13 @@ import { Size, Theme } from '../../types/theme';
   styleUrl: './t-rek-components.component.scss',
 })
 export class TRekComponentsComponent implements OnInit, OnDestroy {
-  progressValue: number = 0;
-  interval?: NodeJS.Timeout;
+  progressValue = 0;
   animationId?: number;
   theme: Theme = 'dark';
   themeSubscription: Subscription;
 
   size: Size = 'medium';
-  pageSize: number = 5;
+  pageSize = 5;
 
   gridTitle$!: Observable<string>;
   progressTitle$!: Observable<string>;

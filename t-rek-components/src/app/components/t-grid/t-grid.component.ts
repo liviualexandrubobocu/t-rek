@@ -39,8 +39,7 @@ export class TGridComponent<T> implements AfterContentInit {
     return this._data;
   }
 
-  @Input() sortable: boolean = false;
-  @Input() pageSize: number | null = null;
+  @Input() sortable = false;
 
   @Input() theme!: Theme;
   @Input() size!: Size;
@@ -53,6 +52,15 @@ export class TGridComponent<T> implements AfterContentInit {
     currentPage: number;
     pageSize: number | null;
   }>();
+
+  private _pageSize: number | null = null;
+  @Input() set pageSize(value: number | null) {
+    this._pageSize = value;
+    this.pageSizeSignal.set(value);
+  }
+  get pageSize(): number | null {
+    return this._pageSize;
+  }
 
   @ContentChildren(TColumnComponent) columns!: QueryList<TColumnComponent<T>>;
 
@@ -119,10 +127,6 @@ export class TGridComponent<T> implements AfterContentInit {
   constructor(private translocoService: TranslocoService) {}
 
   ngAfterContentInit() {
-    if (this.pageSize) {
-      this.pageSizeSignal.set(this.pageSize);
-    }
-
     // Translations
     this.pageText$ = this.translocoService.selectTranslate('lib.grid.pageText');
     this.pageOfText$ = this.translocoService.selectTranslate(
@@ -163,8 +167,8 @@ export class TGridComponent<T> implements AfterContentInit {
     this.currentPage.set(1);
   }
 
-  onPageSizeChange(event: any) {
-    this.pageSizeSignal.set(Number(event.target.value));
+  onPageSizeChange(event: Event) {
+    this.pageSizeSignal.set(Number((event?.target as HTMLSelectElement).value));
     this.currentPage.set(1);
     this.paginationChange.emit({
       currentPage: this.currentPage(),
@@ -183,7 +187,12 @@ export class TGridComponent<T> implements AfterContentInit {
     });
   }
 
-  private isObservable(obj: any): obj is Observable<T[]> {
-    return obj && typeof obj.subscribe === 'function';
+  private isObservable<T>(obj: unknown): obj is Observable<T> {
+    return (
+      obj !== null &&
+      typeof obj === 'object' &&
+      !Array.isArray(obj) &&
+      typeof (obj as Observable<T>).subscribe === 'function'
+    );
   }
 }
