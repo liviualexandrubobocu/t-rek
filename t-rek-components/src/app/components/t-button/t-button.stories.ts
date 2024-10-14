@@ -23,7 +23,7 @@ export const Default: Story = {
     size: 'medium',
     disabled: false,
   },
-  render: (args: any) => ({    
+  render: () => ({    
     template: `<t-button
       [theme]="'light'"
       [size]="'medium'"
@@ -41,7 +41,7 @@ export const DarkTheme: Story = {
     theme: 'dark',
     size: 'medium'
   },
-  render: (args: any) => ({    
+  render: () => ({    
     template: `<t-button
       [theme]="'dark'"
       [size]="'medium'"
@@ -60,7 +60,7 @@ export const Disabled: Story = {
     theme: 'light',
     size: 'medium'
   },
-  render: (args: any) => ({    
+  render: () => ({    
     template: `<t-button
       [theme]="'light'"
       [size]="'medium'"
@@ -78,7 +78,7 @@ export const SmallSize: Story = {
     size: 'small',
     theme: 'light',
   },
-  render: (args: any) => ({    
+  render: () => ({    
     template: `<t-button
       [theme]="'light'"
       [size]="'small'"
@@ -96,7 +96,7 @@ export const LargeSize: Story = {
     size: 'large',
     theme: 'light',
   },
-  render: (args: any) => ({    
+  render: () => ({    
     template: `<t-button
       [theme]="'light'"
       [size]="'large'"
