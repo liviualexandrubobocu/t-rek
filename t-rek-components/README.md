@@ -2,36 +2,37 @@
 
 ## Requirements
 
- - Install Node 20.11.1
- - TypeScript 5.4.4
- - Clone repository
- - Run: `npm i`
- - Start : `npm run start`
- - Build : `npm run build`
- - Test: `npm run test`
- - Lint: `npm run lint`
- - Prettier: `npm run prettier`
- - Storybook: `npm run storybook`
+- Install Node 20.11.1
+- TypeScript 5.4.4
+- Clone repository
+- Run: `npm i`
+- Start : `npm run start`
+- Build : `npm run build`
+- Test: `npm run test`
+- Lint: `npm run lint`
+- Prettier: `npm run prettier`
+- Storybook: `npm run storybook`
 
 # Component library
 
 Added components:
- - t-button
- - t-select
- - t-column
- - t-grid
- - t-progress
+
+- t-button
+- t-select
+- t-column
+- t-grid
+- t-progress
 
 These Components are styled by light / dark theme. Additionally, they allow a change in size, especially button and select components (small / medium / large).
 
 These library components ar within src/app/components folder
 
-The presentation layer contains 
+The presentation layer contains
 
- - t-header
- - t-rek-components
- - t-theme-toggle
- - t-typewriter
+- t-header
+- t-rek-components
+- t-theme-toggle
+- t-typewriter
 
 The presentation layer is concentrated in the presentation folder.
 These components are for presentation purposes only and they haven't been extended theme wise.

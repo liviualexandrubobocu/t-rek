@@ -5,7 +5,13 @@ import { TColumnComponent } from '../t-column/t-column.component';
 import { CommonModule } from '@angular/common';
 import { TButtonComponent } from '../t-button/t-button.component';
 import { TSelectComponent } from '../t-select/t-select.component';
-import { TranslocoService, TRANSLOCO_TRANSPILER, TRANSLOCO_MISSING_HANDLER, TRANSLOCO_INTERCEPTOR, TRANSLOCO_FALLBACK_STRATEGY } from '@jsverse/transloco';
+import {
+  TranslocoService,
+  TRANSLOCO_TRANSPILER,
+  TRANSLOCO_MISSING_HANDLER,
+  TRANSLOCO_INTERCEPTOR,
+  TRANSLOCO_FALLBACK_STRATEGY,
+} from '@jsverse/transloco';
 
 export const ActionsData = {
   sortChange: fn(),
@@ -21,39 +27,44 @@ const meta: Meta<TGridComponent<unknown>> = {
       providers: [
         TranslocoService,
         {
-            provide: TRANSLOCO_TRANSPILER,
-            useValue: {
-              transpile(value: string) {
-                return value;
-              },
+          provide: TRANSLOCO_TRANSPILER,
+          useValue: {
+            transpile(value: string) {
+              return value;
             },
           },
-          {
-            provide: TRANSLOCO_MISSING_HANDLER,
-            useValue: {
-              transpile(value: string) {
-                return value;
-              },
+        },
+        {
+          provide: TRANSLOCO_MISSING_HANDLER,
+          useValue: {
+            transpile(value: string) {
+              return value;
             },
           },
-          {
-            provide: TRANSLOCO_INTERCEPTOR,
-            useValue: {
-              transpile(value: string) {
-                return value;
-              },
+        },
+        {
+          provide: TRANSLOCO_INTERCEPTOR,
+          useValue: {
+            transpile(value: string) {
+              return value;
             },
           },
-          {
-            provide: TRANSLOCO_FALLBACK_STRATEGY,
-            useValue: {
-              transpile(value: string) {
-                return value;
-              },
+        },
+        {
+          provide: TRANSLOCO_FALLBACK_STRATEGY,
+          useValue: {
+            transpile(value: string) {
+              return value;
             },
           },
+        },
       ],
-      imports: [CommonModule, TButtonComponent, TSelectComponent, TColumnComponent],
+      imports: [
+        CommonModule,
+        TButtonComponent,
+        TSelectComponent,
+        TColumnComponent,
+      ],
     }),
   ],
   tags: ['autodocs'],

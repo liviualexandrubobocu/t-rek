@@ -58,9 +58,20 @@ describe('TProgressService', () => {
       expect(mockCanvas.width).toBe(radius * 2);
       expect(mockCanvas.height).toBe(radius * 2);
 
-      expect(mockContext.clearRect).toHaveBeenCalledWith(0, 0, radius * 2, radius * 2);
+      expect(mockContext.clearRect).toHaveBeenCalledWith(
+        0,
+        0,
+        radius * 2,
+        radius * 2,
+      );
       expect(mockContext.beginPath).toHaveBeenCalled();
-      expect(mockContext.arc).toHaveBeenCalledWith(radius, radius, radius - 10, 0, 2 * Math.PI);
+      expect(mockContext.arc).toHaveBeenCalledWith(
+        radius,
+        radius,
+        radius - 10,
+        0,
+        2 * Math.PI,
+      );
       expect(mockContext.strokeStyle).toBe('rgba(0, 0, 0, 0.1)');
       expect(mockContext.lineWidth).toBe(10);
       expect(mockContext.stroke).toHaveBeenCalled();
@@ -96,7 +107,13 @@ describe('TProgressService', () => {
 
       expect(mockContext.clearRect).toHaveBeenCalledWith(0, 0, 200, 200);
       expect(mockContext.beginPath).toHaveBeenCalled();
-      expect(mockContext.arc).toHaveBeenCalledWith(100, 100, 90, 0, 2 * Math.PI);
+      expect(mockContext.arc).toHaveBeenCalledWith(
+        100,
+        100,
+        90,
+        0,
+        2 * Math.PI,
+      );
       expect(mockContext.strokeStyle).toBe('rgba(0, 0, 0, 0.1)');
       expect(mockContext.lineWidth).toBe(10);
       expect(mockContext.stroke).toHaveBeenCalled();
@@ -134,10 +151,10 @@ describe('TProgressService', () => {
       service.initialize(mockCanvas, radius, color, theme, size);
 
       expect(mockContext.clearRect).toHaveBeenCalledWith(0, 0, 200, 200);
-      expect(mockContext.beginPath).toHaveBeenCalledTimes(1); 
+      expect(mockContext.beginPath).toHaveBeenCalledTimes(1);
       expect(mockContext.strokeStyle).toBe('rgba(0, 0, 0, 0.1)');
       expect(mockContext.lineWidth).toBe(10);
-      expect(mockContext.stroke).toHaveBeenCalledTimes(1); 
+      expect(mockContext.stroke).toHaveBeenCalledTimes(1);
       expect(mockContext.fillStyle).toBe('#000000');
     });
   });
@@ -148,7 +165,9 @@ describe('TProgressService', () => {
       expect(service['getBackgroundStrokeColor']()).toBe('rgba(0, 0, 0, 0.1)');
 
       service['theme'] = 'dark';
-      expect(service['getBackgroundStrokeColor']()).toBe('rgba(255, 255, 255, 0.2)');
+      expect(service['getBackgroundStrokeColor']()).toBe(
+        'rgba(255, 255, 255, 0.2)',
+      );
     });
 
     it('getTextColor should return correct color based on theme', () => {

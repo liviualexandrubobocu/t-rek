@@ -1,4 +1,9 @@
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+} from '@angular/core/testing';
 import { TSelectComponent } from './t-select.component';
 import { Component } from '@angular/core';
 import { By } from '@angular/platform-browser';
@@ -28,8 +33,8 @@ const MockTranslocoService = {
 })
 class TestHostComponent {
   options: SelectOption[] = [];
-  theme: Theme = 'light'; 
-  size: Size = 'medium';  
+  theme: Theme = 'light';
+  size: Size = 'medium';
   disabled = false;
   value: unknown = null;
 
@@ -66,7 +71,9 @@ describe('TSelectComponent', () => {
     testHostComponent = fixture.componentInstance;
     fixture.detectChanges();
 
-    const selectDebugElement = fixture.debugElement.query(By.directive(TSelectComponent));
+    const selectDebugElement = fixture.debugElement.query(
+      By.directive(TSelectComponent),
+    );
     component = selectDebugElement.componentInstance;
   });
 
@@ -98,7 +105,9 @@ describe('TSelectComponent', () => {
     fixture.detectChanges();
     tick();
 
-    const selectElement = fixture.debugElement.query(By.css('select')).nativeElement;
+    const selectElement = fixture.debugElement.query(
+      By.css('select'),
+    ).nativeElement;
 
     selectElement.value = 'option2';
     selectElement.dispatchEvent(new Event('change'));
@@ -112,7 +121,9 @@ describe('TSelectComponent', () => {
     testHostComponent.disabled = true;
     fixture.detectChanges();
 
-    const selectElement = fixture.debugElement.query(By.css('select')).nativeElement;
+    const selectElement = fixture.debugElement.query(
+      By.css('select'),
+    ).nativeElement;
     expect(selectElement.disabled).toBeTrue();
   });
 
@@ -120,7 +131,9 @@ describe('TSelectComponent', () => {
     testHostComponent.theme = 'dark';
     fixture.detectChanges();
 
-    const selectElement = fixture.debugElement.query(By.css('select')).nativeElement;
+    const selectElement = fixture.debugElement.query(
+      By.css('select'),
+    ).nativeElement;
     expect(selectElement.classList).toContain('dark');
     expect(selectElement.classList).not.toContain('light');
   });
@@ -129,7 +142,9 @@ describe('TSelectComponent', () => {
     testHostComponent.size = 'large';
     fixture.detectChanges();
 
-    const selectElement = fixture.debugElement.query(By.css('select')).nativeElement;
+    const selectElement = fixture.debugElement.query(
+      By.css('select'),
+    ).nativeElement;
     expect(selectElement.classList).toContain('large');
     expect(selectElement.classList).not.toContain('medium');
   });
@@ -150,7 +165,9 @@ describe('TSelectComponent', () => {
     fixture.detectChanges();
     tick();
 
-    const selectElement = fixture.debugElement.query(By.css('select')).nativeElement;
+    const selectElement = fixture.debugElement.query(
+      By.css('select'),
+    ).nativeElement;
     expect(selectElement.value).toBe('option2');
   }));
 
@@ -164,10 +181,12 @@ describe('TSelectComponent', () => {
     fixture.detectChanges();
     tick();
 
-    const selectElement = fixture.debugElement.query(By.css('select')).nativeElement;
+    const selectElement = fixture.debugElement.query(
+      By.css('select'),
+    ).nativeElement;
     expect(selectElement.value).toBe('option3');
 
-      const selectedOption = selectElement.options[selectElement.selectedIndex];
+    const selectedOption = selectElement.options[selectElement.selectedIndex];
     expect(selectedOption.value).toBe('option3');
     expect(selectedOption.textContent.trim()).toBe('Option 3');
   }));

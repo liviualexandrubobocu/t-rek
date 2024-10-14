@@ -17,7 +17,9 @@ export class ThemeService {
    * @type {BehaviorSubject<Theme>}
    * @private
    */
-  private themeSubject: BehaviorSubject<Theme> = new BehaviorSubject<Theme>('light');
+  private themeSubject: BehaviorSubject<Theme> = new BehaviorSubject<Theme>(
+    'light',
+  );
 
   /**
    * An observable that emits the current theme.
@@ -44,7 +46,8 @@ export class ThemeService {
    *
    */
   toggleTheme(): void {
-    const newTheme: Theme = this.themeSubject.value === 'light' ? 'dark' : 'light';
+    const newTheme: Theme =
+      this.themeSubject.value === 'light' ? 'dark' : 'light';
     this.setTheme(newTheme);
   }
 }

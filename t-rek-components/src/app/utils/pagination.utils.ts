@@ -12,7 +12,7 @@
  * @throws {Error} Throws an error if `currentPage` or `pageSize` is less than 1.
  *
  */
- export function paginateData<T>(
+export function paginateData<T>(
   data: T[],
   currentPage: number,
   pageSize: number,

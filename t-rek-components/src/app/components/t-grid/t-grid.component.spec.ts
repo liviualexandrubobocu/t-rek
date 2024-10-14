@@ -1,4 +1,9 @@
-import { ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  tick,
+  fakeAsync,
+} from '@angular/core/testing';
 import { TGridComponent } from './t-grid.component';
 import { TColumnComponent } from '../t-column/t-column.component';
 import { TRANSLOCO_TRANSPILER, TranslocoService } from '@jsverse/transloco';
@@ -21,43 +26,43 @@ interface TestData {
 }
 
 @Component({
-    selector: 't-host',
-    template: `
-      <t-grid
-        [data]="data"
-        [sortable]="sortable"
-        [pageSize]="pageSize"
-        [theme]="theme"
-        [size]="size"
-        (sortChange)="onSortChange($event)"
-        (paginationChange)="onPaginationChange($event)"
-      >
-        <t-column [property]="'id'" [sortable]="true"></t-column>
-        <t-column [property]="'name'" [sortable]="true"></t-column>
-        <t-column [property]="'value'" [sortable]="false"></t-column>
-      </t-grid>
-    `,
-  })
-  class TestHostComponent {
-    data: TestData[] | Observable<TestData[]> = [];
-    sortable = true;
-    pageSize: number | null = null;
-    theme: Theme = 'light';
-    size: Size = 'medium';  
-    paginationChange(){
-        console.log('pagination change event')
-    } 
-  
-    onSortChange(event: unknown) {
-        console.log(event);
-    }
-    onPaginationChange(event: unknown) {
-        console.log(event);
-    }
-    goToPage(nr: number){
-        console.log(nr);
-    }
+  selector: 't-host',
+  template: `
+    <t-grid
+      [data]="data"
+      [sortable]="sortable"
+      [pageSize]="pageSize"
+      [theme]="theme"
+      [size]="size"
+      (sortChange)="onSortChange($event)"
+      (paginationChange)="onPaginationChange($event)"
+    >
+      <t-column [property]="'id'" [sortable]="true"></t-column>
+      <t-column [property]="'name'" [sortable]="true"></t-column>
+      <t-column [property]="'value'" [sortable]="false"></t-column>
+    </t-grid>
+  `,
+})
+class TestHostComponent {
+  data: TestData[] | Observable<TestData[]> = [];
+  sortable = true;
+  pageSize: number | null = null;
+  theme: Theme = 'light';
+  size: Size = 'medium';
+  paginationChange() {
+    console.log('pagination change event');
   }
+
+  onSortChange(event: unknown) {
+    console.log(event);
+  }
+  onPaginationChange(event: unknown) {
+    console.log(event);
+  }
+  goToPage(nr: number) {
+    console.log(nr);
+  }
+}
 
 describe('TGridComponent', () => {
   let component: TGridComponent<TestData>;
@@ -88,7 +93,7 @@ describe('TGridComponent', () => {
     fixture.detectChanges();
 
     const gridDebugElement = fixture.debugElement.query(
-      By.directive(TGridComponent)
+      By.directive(TGridComponent),
     );
     component = gridDebugElement.componentInstance;
   });
@@ -118,7 +123,7 @@ describe('TGridComponent', () => {
     fixture.detectChanges();
 
     const idColumnComponent = component.columns.find(
-      (column) => column.property === 'id'
+      (column) => column.property === 'id',
     );
     component.onHeaderClick(idColumnComponent!);
     fixture.detectChanges();
@@ -138,7 +143,7 @@ describe('TGridComponent', () => {
     fixture.detectChanges();
 
     const idColumnComponent = component.columns.find(
-      (column) => column.property === 'id'
+      (column) => column.property === 'id',
     );
     component.onHeaderClick(idColumnComponent!);
     fixture.detectChanges();
@@ -159,14 +164,13 @@ describe('TGridComponent', () => {
     testHostComponent.pageSize = 2;
 
     fixture.detectChanges();
-    tick(); 
+    tick();
 
-    
     const dataEmissions: TestData[][] = [];
     const subscription = component.processedData$.subscribe((data) => {
       dataEmissions.push(data);
     });
-   
+
     expect(dataEmissions.length).toBeGreaterThanOrEqual(1);
     expect(dataEmissions[0].length).toBe(2);
     expect(dataEmissions[0][0].id).toBe(1);
@@ -193,7 +197,7 @@ describe('TGridComponent', () => {
     fixture.detectChanges();
 
     const idColumnComponent = component.columns.find(
-      (column) => column.property === 'id'
+      (column) => column.property === 'id',
     );
     component.onHeaderClick(idColumnComponent!);
     fixture.detectChanges();

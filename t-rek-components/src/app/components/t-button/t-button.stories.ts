@@ -23,7 +23,7 @@ export const Default: Story = {
     size: 'medium',
     disabled: false,
   },
-  render: () => ({    
+  render: () => ({
     template: `<t-button
       [theme]="'light'"
       [size]="'medium'"
@@ -31,17 +31,17 @@ export const Default: Story = {
       [ariaLabel]="'button-label'"
     >
       Previous
-    </t-button>`
-  })
+    </t-button>`,
+  }),
 };
 
 export const DarkTheme: Story = {
   args: {
     ...Default.args,
     theme: 'dark',
-    size: 'medium'
+    size: 'medium',
   },
-  render: () => ({    
+  render: () => ({
     template: `<t-button
       [theme]="'dark'"
       [size]="'medium'"
@@ -49,8 +49,8 @@ export const DarkTheme: Story = {
       [ariaLabel]="'button-label'"
     >
       Previous
-    </t-button>`
-  })
+    </t-button>`,
+  }),
 };
 
 export const Disabled: Story = {
@@ -58,9 +58,9 @@ export const Disabled: Story = {
     ...Default.args,
     disabled: true,
     theme: 'light',
-    size: 'medium'
+    size: 'medium',
   },
-  render: () => ({    
+  render: () => ({
     template: `<t-button
       [theme]="'light'"
       [size]="'medium'"
@@ -68,8 +68,8 @@ export const Disabled: Story = {
       [ariaLabel]="'button-label'"
     >
       Previous
-    </t-button>`
-  })
+    </t-button>`,
+  }),
 };
 
 export const SmallSize: Story = {
@@ -78,7 +78,7 @@ export const SmallSize: Story = {
     size: 'small',
     theme: 'light',
   },
-  render: () => ({    
+  render: () => ({
     template: `<t-button
       [theme]="'light'"
       [size]="'small'"
@@ -86,8 +86,8 @@ export const SmallSize: Story = {
       [ariaLabel]="'button-label'"
     >
       Previous
-    </t-button>`
-  })
+    </t-button>`,
+  }),
 };
 
 export const LargeSize: Story = {
@@ -96,7 +96,7 @@ export const LargeSize: Story = {
     size: 'large',
     theme: 'light',
   },
-  render: () => ({    
+  render: () => ({
     template: `<t-button
       [theme]="'light'"
       [size]="'large'"
@@ -104,6 +104,6 @@ export const LargeSize: Story = {
       [ariaLabel]="'button-label'"
     >
       Previous
-    </t-button>`
-  })
+    </t-button>`,
+  }),
 };
