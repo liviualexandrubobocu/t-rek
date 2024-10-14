@@ -44,8 +44,6 @@ As observables can be unsubscribed via async pipe in the DOM, it was easier for 
 It was also easier to leverage an automatic change detection trigger without manual intervention, due to signal reactivity and reference change.
 For TProgressComponent it was done manually.
 
-For TProgressComponent complete event has been changed to finalize due to eslint constraints (also mentioned in the component).
-
 Storybook unfortunately doesn't work properly at the current time and it need fixing for data completion.
 
 Components have been enhanced with some accessibility and responsive features.
